@@ -2,7 +2,8 @@
 
 Specs to Code is a simple app that will translate specifications written in Gerhkin to code. Right now it has limited functionality and only supports BDDfy.
 
-https://github.com/TestStack/TestStack.BDDfy
+- http://kurtdowswell.com/SpecsToCode
+- https://github.com/TestStack/TestStack.BDDfy
 
 ## TODO
 
