@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="./bootstrap.css">
+  <!-- <link rel="stylesheet" type="text/css" href="./styles.css"> -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1>Specs to Code</h1>
+
+    <div class="row">
+      <div class="col">
+        <h2>Specs</h2>
+      </div>
+      <div class="col">
+
+        <h2>Code
+          <button class="btn btn-primary pull-right" data-clipboard-target="#codeoutput">
+            Copy
+          </button>
+        </h2>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <textarea id="input" class="form-control" rows="40">
+Feature: Serve coffee
+  Coffee should not be served until paid for
+  Coffee should not be served until the button has been pressed
+  If there is no coffee left then money should be refunded
+
+Scenario: Buy last coffee
+  Given there are 1 coffees left in the machine
+  And I have deposited 1 dollar
+  When I press the coffee button
+  Then I should be served a coffee
+</textarea>
+      </div>
+      <div class="col">
+        <pre class="card" id="codeoutput"></pre>
+      </div>
+    </div>
+
+    <!-- <br>
+  <pre id="output"></pre> -->
+
+  </div>
+  <script src="./clipboard.js"></script>
+  <script src="../lib/gherkin.js"></script>
+  <script src="demo.js"></script>
+
+</body>
+
+</html>
