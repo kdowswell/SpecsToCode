@@ -10,6 +10,8 @@
   <div class="container-fluid">
     <h1>Specs to Code</h1>
 
+    <div id="errorDiv" class="alert alert-danger"></div>
+
     <div class="row">
       <div class="col">
         <h2>Specs</h2>
@@ -29,9 +31,9 @@
       <div class="col">
         <textarea id="input" class="form-control" rows="40">
 Feature: Serve coffee
-  Coffee should not be served until paid for
-  Coffee should not be served until the button has been pressed
-  If there is no coffee left then money should be refunded
+  As a coffee drinker
+  I want to drink coffee
+  So that I can be happy
 
 Scenario: Buy last coffee
   Given there are 1 coffees left in the machine
@@ -41,12 +43,12 @@ Scenario: Buy last coffee
 </textarea>
       </div>
       <div class="col">
-        <pre class="card" id="codeoutput"></pre>
+        <pre class="card" id="codeoutput" style="white-space:pre-wrap;"></pre>
       </div>
     </div>
 
-    <!-- <br>
-  <pre id="output"></pre> -->
+    <br>
+  <pre id="output"></pre>
 
   </div>
   <script src="./lib/clipboard.js"></script>

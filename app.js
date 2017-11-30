@@ -1,6 +1,7 @@
 var input = document.getElementById("input");
 var output = document.getElementById("output");
 var codeoutput = document.getElementById("codeoutput");
+var errorDiv = document.getElementById("errorDiv");
 var parser = new Gherkin.Parser();
 parser.stopAtFirstError = false;
 
@@ -19,12 +20,18 @@ function copyCode() {
 function parse() {
   var result;
   var json;
+  errorDiv.style = "display: none;"
+  codeoutput.innerText = '\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r';
+
   try {
     var ast = parser.parse(input.value);
     result = JSON.stringify(ast, null, 2);
     json = JSON.parse(result);
   } catch (e) {
+    console.log(e);
     result = e.stack;
+    errorDiv.innerText = e.message;
+    errorDiv.style = "display: display;"
   }
   // output.innerText = result;
   outputCode(json);
@@ -113,8 +120,37 @@ function outputCode(json) {
     {
   `;
 
+  //"description": "as a coffee drinker named Joe\nI want to drink coffee\nSo that I am hyper",
+  let asA = ``;
+  let iWant = ``;
+  let soThat = ``;
+  if (json.feature.description !== undefined) {
+
+    let descriptionLower = json.feature.description.toLowerCase();
+    let description = json.feature.description;
+
+    //asA
+    let startIndex = descriptionLower.indexOf('as a');
+    let length = description.indexOf('\n') - startIndex;
+    asA = description.substr(startIndex, length);
+
+    //iWant
+    startIndex = descriptionLower.indexOf('i want');
+    length = description.lastIndexOf('\n') - startIndex;
+    iWant = description.substr(startIndex, length);
+
+    //So that
+    startIndex = descriptionLower.indexOf('so that');
+    length = description.length - startIndex;
+    soThat = description.substr(startIndex, length);
+  }
+
   let classStart = `
   \t[TestFixture]
+        [Story(
+          AsA = "${asA}",
+          IWant = "${iWant}",
+          SoThat = "${soThat}")]
   \tpublic class ${toMethod(json.feature.name)}
   \t{
   `;
