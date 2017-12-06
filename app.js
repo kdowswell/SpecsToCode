@@ -57,10 +57,16 @@ function removeSpaces(str) {
   return str.replace(/\s/g, "");
 }
 
+function removeNonAlphaNumeric(str) {
+  return str.replace(/\W/g, '');
+}
+
+
 function toMethod(str) {
   let result = removeStringParam(str);
   result = toTitleCase(result);
   result = removeSpaces(result);
+  result = removeNonAlphaNumeric(result);
   return result;
 }
 
