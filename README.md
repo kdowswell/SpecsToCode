@@ -14,9 +14,8 @@ BDDfy Implementation
 [x] Background
 [x] """ (Doc Strings)
 [x] Display Gherkin parse errors
-[x] table string param support
-[ ] Scenario Outline
-[ ] Examples
-[ ] | (Data Tables)
+[x] | (Data Tables) single-column
+[ ] | (Data Tables) multi-column
 [ ] @ (Tags)
 [ ] # (Comments)
+[ ] Scenario Outline with Examples table
