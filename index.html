@@ -4,13 +4,20 @@
 <head>
   <link rel="stylesheet" type="text/css" href="./lib/bootstrap.css">
   <!-- <link rel="stylesheet" type="text/css" href="./styles.css"> -->
+  <style>
+    .errorDivContainer {
+      height: 50px;
+    }
+  </style>
 </head>
 
 <body>
   <div class="container-fluid">
     <h1>Specs to Code</h1>
 
-    <div id="errorDiv" class="alert alert-danger"></div>
+    <div class="errorDivContainer">
+      <div id="errorDiv" class="alert alert-danger"></div>
+    </div>
 
     <div class="row">
       <div class="col">
@@ -44,7 +51,7 @@ Scenario: Buy last coffee
   |test1|
   |asdf2|
   |random3|
-  
+
 </textarea>
       </div>
       <div class="col">
@@ -53,7 +60,7 @@ Scenario: Buy last coffee
     </div>
 
     <br>
-  <pre id="output"></pre>
+    <pre id="output"></pre>
 
   </div>
   <script src="./lib/clipboard.js"></script>

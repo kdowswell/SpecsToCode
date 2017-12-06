@@ -30,11 +30,18 @@ function parse() {
   } catch (e) {
     console.log(e);
     result = e.stack;
-    errorDiv.innerText = e.message;
+    errorDiv.innerText = getErrorMessage(e.message);
     errorDiv.style = "display: display;"
   }
-   output.innerText = result;
+  //output.innerText = result;
   outputCode(json);
+}
+
+function getErrorMessage(e) {
+  if (e.indexOf('#FeatureLine') > 0) {
+    return 'Missing "Feature:" description';
+  }
+  return e.substr(0,100);
 }
 
 function removeStringParam(str) {
