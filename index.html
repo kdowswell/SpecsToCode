@@ -39,7 +39,12 @@ Scenario: Buy last coffee
   Given there are 1 coffees left in the machine
   And I have deposited 1 dollar
   When I press the coffee button
-  Then I should be served a coffee
+  Then I should see the following fields
+  |fields|
+  |test1|
+  |asdf2|
+  |random3|
+  
 </textarea>
       </div>
       <div class="col">

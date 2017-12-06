@@ -33,7 +33,7 @@ function parse() {
     errorDiv.innerText = e.message;
     errorDiv.style = "display: display;"
   }
-  // output.innerText = result;
+   output.innerText = result;
   outputCode(json);
 }
 
@@ -217,8 +217,26 @@ function outputCode(json) {
 
         let hasStringArg = step.argument !== undefined;
         if (hasStringArg) {
-          methodArgValue = `@"${step.argument.content}"`;
-          methodArg = `string value`;
+          let isDataTable = step.argument.type === 'DataTable';
+
+          if (isDataTable) {
+            console.log('is datatable');
+            methodArgValue = 'new [] {';
+            for (let i = 0; i < step.argument.rows.length; i++) {
+              console.log(i);
+                let cell = step.argument.rows[i].cells[0];
+                methodArgValue = methodArgValue + `"${cell.value}",`;
+                console.log(methodArgValue);
+            }
+            methodArgValue = methodArgValue + '}';
+            methodArg = `string[] values`;
+
+          }
+          else {
+            methodArgValue = `@"${step.argument.content}"`;
+            methodArg = `string value`;
+          }
+          
         }
 
         let hasInlineStringArg = step.text.includes('"');
