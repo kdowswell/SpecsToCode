@@ -129,14 +129,15 @@ function outputCode(json) {
 
   let namespaceStart = `
     namespace REPLACE_THIS_NAMESPACE
-    {
-  `;
+    {`;
 
-  //"description": "as a coffee drinker named Joe\nI want to drink coffee\nSo that I am hyper",
-  let asA = ``;
-  let iWant = ``;
-  let soThat = ``;
+  let storyAttribute = ``;
+
   if (json.feature.description !== undefined) {
+
+    let asA = ``;
+    let iWant = ``;
+    let soThat = ``;
 
     let descriptionLower = json.feature.description.toLowerCase();
     let description = json.feature.description;
@@ -155,14 +156,20 @@ function outputCode(json) {
     startIndex = descriptionLower.indexOf('so that');
     length = description.length - startIndex;
     soThat = description.substr(startIndex, length);
-  }
 
-  let classStart = `
-  \t[TestFixture]
+    
+    if (asA && iWant && soThat) {
+      storyAttribute = `
         [Story(
           AsA = "${asA}",
           IWant = "${iWant}",
-          SoThat = "${soThat}")]
+          SoThat = "${soThat}")]`;
+    }
+  }
+
+  let classStart = `
+    ${storyAttribute}
+        [TestFixture]
   \tpublic class ${toMethod(json.feature.name)}
   \t{
   `;
