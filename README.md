@@ -8,14 +8,14 @@ Specs to Code is a simple app that will translate specifications written in Gher
 ## TODO
 
 BDDfy Implementation
-[x] Feature
-[x] Scenario(s) 
-[x] Given, When, Then, And, But (Steps)
-[x] Background
-[x] """ (Doc Strings)
-[x] Display Gherkin parse errors
-[x] | (Data Tables) single-column
-[ ] | (Data Tables) multi-column
-[ ] @ (Tags)
-[ ] # (Comments)
-[ ] Scenario Outline with Examples table
+- [x] Feature
+- [x] Scenario(s) 
+- [x] Given, When, Then, And, But (Steps)
+- [x] Background
+- [x] """ (Doc Strings)
+- [x] Display Gherkin parse errors
+- [x] | (Data Tables) single-column
+- [ ] | (Data Tables) multi-column
+- [ ] @ (Tags)
+- [ ] # (Comments)
+- [ ] Scenario Outline with Examples table
