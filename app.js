@@ -28,7 +28,6 @@ function parse() {
     result = JSON.stringify(ast, null, 2);
     json = JSON.parse(result);
   } catch (e) {
-    console.log(e);
     result = e.stack;
     errorDiv.innerText = getErrorMessage(e.message);
     errorDiv.style = "display: display;"
@@ -227,13 +226,10 @@ function outputCode(json) {
           let isDataTable = step.argument.type === 'DataTable';
 
           if (isDataTable) {
-            console.log('is datatable');
             methodArgValue = 'new [] {';
-            for (let i = 0; i < step.argument.rows.length; i++) {
-              console.log(i);
+            for (let i = 1; i < step.argument.rows.length; i++) {
                 let cell = step.argument.rows[i].cells[0];
                 methodArgValue = methodArgValue + `"${cell.value}",`;
-                console.log(methodArgValue);
             }
             methodArgValue = methodArgValue + '}';
             methodArg = `string[] values`;
