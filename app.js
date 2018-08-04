@@ -24,7 +24,14 @@ function parse() {
   codeoutput.innerText = '\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r';
 
   try {
-    var ast = parser.parse(input.value);
+
+    const inputWithSpaces = input.value
+    // insert a space before all caps
+    .replace(/([A-Z])/g, ' $1')
+    // uppercase the first character
+    .replace(/^./, function(str){ return str.toUpperCase(); })
+
+    var ast = parser.parse(inputWithSpaces);
     result = JSON.stringify(ast, null, 2);
     json = JSON.parse(result);
   } catch (e) {
