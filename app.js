@@ -39,7 +39,7 @@ function parse() {
     errorDiv.innerText = getErrorMessage(e.message);
     errorDiv.style = "display: display;"
   }
-  //output.innerText = result;
+  output.innerText = result;
   outputCode(json);
 }
 
@@ -198,6 +198,10 @@ function outputCode(json) {
 
   let bddfyMethods = ``;
   let methods = ``;
+  let givenMethods = ``;
+  let whenMethods = ``;
+  let thenMethods = ``;
+  let lastStepKeyword = ``;
 
   //BACKGROUND
   methods = getBackgroundMethods(json, methods);
@@ -244,6 +248,7 @@ function outputCode(json) {
         let hasStringArg = step.argument !== undefined;
         if (hasStringArg) {
           let isDataTable = step.argument.type === 'DataTable';
+         
 
           if (isDataTable) {
             methodArgValue = 'new [] {';
@@ -255,10 +260,10 @@ function outputCode(json) {
             methodArg = `string[] values`;
 
           }
-          else {
-            methodArgValue = `@"${step.argument.content}"`;
-            methodArg = `string value`;
-          }
+          // else {
+          //   methodArgValue = `@"${step.argument.content}"`;
+          //   methodArg = `string value`;
+          // }
           
         }
 
@@ -267,18 +272,66 @@ function outputCode(json) {
           let startIndex = step.text.indexOf('"') + 1;
           let length = step.text.lastIndexOf('"') - startIndex;
           let argument = step.text.substr(startIndex, length);
-          methodArgValue = `@"${argument}"`;
-          methodArg = `string value`;
+          if (isNaN(argument)) {
+            methodArgValue = `@"${argument}"`;
+            methodArg = `string value`;
+          } else {
+            methodArgValue = `${argument}`;
+            methodArg = `int value`;
+          }
+         
         }
 
         bddfyMethods =
           bddfyMethods +
-          `\t\t\t.${keyword}(x => x.${method}(${methodArgValue}))\r\n`;
+          `\t\t\t.${keyword}(x => x.${method}(${methodArgValue}))\r\n\t`;
 
         let methodSignature = `void ${method}(${methodArg})`;
         if (methods.includes(methodSignature) === false) {
+
+          let isDocString = step.argument && step.argument.type === 'DocString';
+          let hasComment = false;
+          let comment = ``;
+
+          if (isDocString) {
+            hasComment = true;
+            const content = step.argument.content.split('\n').join('\n\t\t');
+            comment = `\t\t/** \r\n \t\t ${content} \r\n \t\t**/ \r\n`;
+          }
+          
+
+          let currentMethod = ``;
+
+          if (hasComment) {
+            currentMethod = comment + `\t\t${methodSignature}\r\n \t\t{ \r\n \t\t} \r\n \r\n`
+          } else {
+            currentMethod = `\t\t${methodSignature}\r\n \t\t{ \r\n \t\t} \r\n \r\n`;
+          }
+
           methods =
-            methods + `\t\t${methodSignature}\r\n \t\t{ \r\n \t\t} \r\n \r\n`;
+            methods + currentMethod;
+
+            if (step.keyword.indexOf('Given') > -1) {
+              givenMethods = givenMethods + currentMethod;
+              lastStepKeyword = 'Given';
+            }else if (step.keyword.indexOf('When') > -1) {
+              whenMethods = whenMethods + currentMethod;
+              lastStepKeyword = 'When';
+            } else if (step.keyword.indexOf('Then') > -1) {
+              thenMethods = thenMethods + currentMethod;
+              lastStepKeyword = 'Then';
+            } 
+
+            if (step.keyword.indexOf('And') > -1) {
+              if (lastStepKeyword === 'Given') {
+                givenMethods = givenMethods + currentMethod;
+              } else if (lastStepKeyword === 'When') {
+                whenMethods = whenMethods + currentMethod;
+              } else if (lastStepKeyword === 'Then') {
+                thenMethods = thenMethods + currentMethod;
+              } 
+            }
+            
         }
       }
 
@@ -292,7 +345,13 @@ function outputCode(json) {
     namespaceStart +
     classStart +
     bddfyMethods +
-    methods +
+    // methods +
+    `\t\t//Given \r\n` +
+    givenMethods +
+    `\t\t//When \r\n` +
+    whenMethods +
+    `\t\t//Then \r\n` +
+    thenMethods +
     classEnd +
     namespaceEnd;
 
