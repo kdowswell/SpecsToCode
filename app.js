@@ -198,13 +198,14 @@ function outputCode(json) {
 
   let bddfyMethods = ``;
   let methods = ``;
+  let backgroundMethods = ``;
   let givenMethods = ``;
   let whenMethods = ``;
   let thenMethods = ``;
   let lastStepKeyword = ``;
 
   //BACKGROUND
-  methods = getBackgroundMethods(json, methods);
+  backgroundMethods = getBackgroundMethods(json, backgroundMethods);
   //END BACKGROUND
 
   //SCENARIOS
@@ -322,7 +323,7 @@ function outputCode(json) {
               lastStepKeyword = 'Then';
             } 
 
-            if (step.keyword.indexOf('And') > -1) {
+            if (step.keyword.indexOf('And') > -1 || step.keyword.indexOf('But') > -1) {
               if (lastStepKeyword === 'Given') {
                 givenMethods = givenMethods + currentMethod;
               } else if (lastStepKeyword === 'When') {
@@ -347,6 +348,7 @@ function outputCode(json) {
     bddfyMethods +
     // methods +
     `\t\t//Given \r\n` +
+    backgroundMethods +
     givenMethods +
     `\t\t//When \r\n` +
     whenMethods +
