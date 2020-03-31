@@ -3,11 +3,43 @@
 
 <head>
   <link rel="stylesheet" type="text/css" href="./lib/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/lonekorean/highlight-within-textarea/e441a925/jquery.highlight-within-textarea.css">
   <!-- <link rel="stylesheet" type="text/css" href="./styles.css"> -->
   <style>
     .errorDivContainer {
       height: 50px;
     }
+
+    .hwt-content {
+      width: 800px;
+      height: 900px;
+      padding: 20px;
+  
+      text-align: left;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .highlightFeature {
+      background-color: rgb(253, 232, 255);
+    }
+
+    .highlightScenario {
+      background-color: rgb(232, 241, 255);
+    }
+
+    .highlightGiven {
+      background-color: rgb(234, 251, 255);
+    }
+
+    .highlightWhen {
+      background-color: rgb(255, 226, 226);
+    }
+
+    .highlightThen {
+      background-color: #e2ffe2;
+    }
+
   </style>
 </head>
 
@@ -55,10 +87,12 @@ Scenario: Buy last coffee
       </div>
     </div>
 
-    <br>
-    <pre id="output"></pre>
+    
+    <!-- <pre id="output"></pre> -->
 
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/lonekorean/highlight-within-textarea/e441a925/jquery.highlight-within-textarea.js"></script>
   <script src="./lib/clipboard.js"></script>
   <script src="./lib/gherkin.js"></script>
   <script src="./app.js"></script>

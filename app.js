@@ -39,7 +39,7 @@ function parse() {
     errorDiv.innerText = getErrorMessage(e.message);
     errorDiv.style = "display: display;"
   }
-  output.innerText = result;
+  // output.innerText = result;
   outputCode(json);
 }
 
@@ -68,6 +68,15 @@ function removeNonAlphaNumeric(str) {
   return str.replace(/\W/g, '');
 }
 
+function isNumeric(num){
+  return !isNaN(num)
+}
+
+function isBoolean(val) {
+  return val === 'true' ? true : 
+  val === 'false' ? true : 
+  false;
+}
 
 function toMethod(str) {
   let result = removeStringParam(str);
@@ -103,7 +112,13 @@ function getBackgroundMethods(json, methods) {
 
       let hasStringArg = step.argument !== undefined;
       if (hasStringArg) {
-        methodArgValue = `@"${step.argument.content}"`;
+        
+        if (isBoolean(step.argument.content) || isNumeric(step.argument.content)) {
+          methodArgValue = `${step.argument.content}`;
+        } else {
+          methodArgValue = `@"${step.argument.content}"`;
+        }
+       
         methodArg = `string value`;
       }
 
@@ -273,12 +288,15 @@ function outputCode(json) {
           let startIndex = step.text.indexOf('"') + 1;
           let length = step.text.lastIndexOf('"') - startIndex;
           let argument = step.text.substr(startIndex, length);
-          if (isNaN(argument)) {
-            methodArgValue = `@"${argument}"`;
-            methodArg = `string value`;
-          } else {
+          if (isNumeric(argument)) {
             methodArgValue = `${argument}`;
             methodArg = `int value`;
+          } else if (isBoolean(argument)) {
+            methodArgValue = `${argument}`;
+            methodArg = `bool value`;
+          } else {
+            methodArgValue = `@"${argument}"`;
+            methodArg = `string value`;
           }
          
         }
@@ -360,8 +378,40 @@ function outputCode(json) {
   codeoutput.innerText = code;
 }
 
+
+function updateHighlights() {
+  $('textarea').highlightWithinTextarea('update');
+}
+
+$('textarea').highlightWithinTextarea({
+  highlight: [
+    {
+      highlight: /Feature+.+/gi,
+      className: 'highlightFeature'
+    },
+    {
+      highlight: /Scenario+.+/gi,
+      className: 'highlightScenario'
+    },
+    {
+      highlight: /Given+/g,
+      className: 'highlightGiven'
+    },
+    {
+      highlight: /When+/g,
+      className: 'highlightWhen'
+    },
+    {
+      highlight: /Then+/g,
+      className: 'highlightThen'
+    },
+  ]
+});
+
 input.onkeyup = function() {
   parse();
+  updateHighlights();
 };
 
 parse();
+updateHighlights();
